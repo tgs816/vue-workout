@@ -24,31 +24,51 @@
     <router-view></router-view>
 
     <template id="temp">
-    <div class="row ui padded grid">
+      <div class="ui grid">
 
-      @*왼쪽 목록*@
-      <div class="four wide column">
-        <div id="home"><a href="@routes.Home.home">home</a></div>
+        @*왼쪽 폼 크기: 4 *@
+        <div class="four wide column">
+        @*<div id="home"><a href="@routes.Home.home">home</a></div>
 
-        <div id="add"><a href="#">추가하기</a></div>
-      </div>
+          <div id="add"><a href="#">추가하기</a></div>
 
-        @*오른쪽 폼*@
-        @*<div class="twelve wide column">
-          *@@* 2 로우로 쪼개기 *@@*
-          <div class="row">
-            <form class="ui form" action="@controllers.routes.Home.currencyAdd" method="post">
-              @field("currency_code")
-              @field("currency_name")
-              @field("currency_name_en")
-              @field("is_active")
-            <button type="submit">추가등록하기</button>
-              <br><br><br>
-            </form>
+          <div> <button v-on:click="clist">목록보기</button> </div>*@
+
+          <div class="ui list">
+
+            <div class="item" v-for="item in data">
+              {{ data }}
+              adsfadsfasd
+            </div>
           </div>
-        </div>*@
+asdfasd
 
-    </div>
+        </div>
+
+
+        <div class="divider"></div>
+        @*오른쪽 폼 크기: 12*@
+        <div class="twelve wide column">
+
+
+        </div>
+
+
+          @*<div class="twelve wide column">
+            *@@* 2 로우로 쪼개기 *@@*
+            <div class="row">
+              <form class="ui form" action="@controllers.routes.Home.currencyAdd" method="post">
+                @field("currency_code")
+                @field("currency_name")
+                @field("currency_name_en")
+                @field("is_active")
+              <button type="submit">추가등록하기</button>
+                <br><br><br>
+              </form>
+            </div>
+          </div>*@
+
+      </div>
     </template>
   </div>
 
@@ -61,27 +81,37 @@
   <script>
   var router = new VueRouter();
 
-    console.log(router)
-      router.map({
-        '/' : {
+
+    router.map({
+      '/' : {
         component: {
           template: '#temp',
-           ready() {
-            console.log("vue 시작")
-           }
+          data: () => {
+            return {$.ajax({
+              url : '/currency',
+              async: false,
+              success: function(responseJSON) {
+                console.log(responseJSON);
+                return responseJSON
+              }
+            })}
           }
         }
-      });
+      }
+    });
 
-   $.ajax({
+
+
+   /*$.ajax({
     url : '/currency',
     success: function(data) {
-        console.log(data)
-
+        data
     }
-   });
+   });*/
 
     router.start({}, '#app')
+
+
   </script>
 </body>
 
