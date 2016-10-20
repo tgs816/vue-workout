@@ -37,11 +37,11 @@
           <div class="ui list">
 
             <div class="item" v-for="item in data">
-              {{ data }}
-              adsfadsfasd
+              {{ item.currencyCode }} {{ item.currencyName }} {{ item.currencyNameEn }} {{ item.currencySymbol }}
+
             </div>
           </div>
-asdfasd
+
 
         </div>
 
@@ -86,15 +86,19 @@ asdfasd
       '/' : {
         component: {
           template: '#temp',
-          data: () => {
-            return {$.ajax({
-              url : '/currency',
-              async: false,
-              success: function(responseJSON) {
-                console.log(responseJSON);
-                return responseJSON
-              }
-            })}
+          data() {
+            return {
+              data: $.ajax({
+                url : '/currency',
+                success: (response) => {
+                  console.log(response);
+                  console.log("this");
+                  console.log(this);
+                  this.$set("data", response);
+                  return response;
+                }
+              })
+            }
           }
         }
       }
@@ -110,9 +114,6 @@ asdfasd
    });*/
 
     router.start({}, '#app')
-
-
-
 
 
   </script>
