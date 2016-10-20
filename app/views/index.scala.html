@@ -38,7 +38,6 @@
 
             <div class="item" v-for="item in data">
               {{ item.currencyCode }} {{ item.currencyName }} {{ item.currencyNameEn }} {{ item.currencySymbol }}
-
             </div>
           </div>
 
@@ -50,6 +49,7 @@
         @*오른쪽 폼 크기: 12*@
         <div class="twelve wide column">
 
+          <p> {{ origin | json }} </p>
 
         </div>
 
@@ -82,36 +82,34 @@
   var router = new VueRouter();
 
 
+  /*var Vue = require('vue');
+  Vue.use(require('vue-resource'));*/
+
     router.map({
       '/' : {
         component: {
           template: '#temp',
-          data() {
-            return {
-              data: $.ajax({
-                url : '/currency',
-                success: (response) => {
-                  console.log(response);
-                  console.log("this");
-                  console.log(this);
-                  this.$set("data", response);
-                  return response;
-                }
-              })
-            }
+          data() { return { data: {} } },
+
+          ready() {
+            return this.$http.get('/currency').then((response) => {
+              console.log("성공");
+              console.log(response.data);
+              this.$set("data", response.data)
+              return response.data
+            }, (response) => {
+              console.log("실패")
+            });
           }
+
+
         }
       }
     });
 
 
 
-   /*$.ajax({
-    url : '/currency',
-    success: function(data) {
-        data
-    }
-   });*/
+
 
     router.start({}, '#app')
 
